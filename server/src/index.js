@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const { PORT } = require("./config/serverConfig");
 const dbConnect = require("./config/database");
 
@@ -9,8 +10,8 @@ const setupAndStartServer = async()=>{
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
 
-    app.listen(PORT, ()=>{
-        console.log(`Server Running on PORT ${PORT}`);
+    app.listen(8008, ()=>{
+        console.log(`Server Running on PORT`);
         // dbConnect();
     });
 }
