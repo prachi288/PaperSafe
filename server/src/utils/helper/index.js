@@ -1,5 +1,5 @@
-const uniqueIDGenerator = require("./uniqueIDGenerator");
-
 module.exports = {
-    uniqueIDGenerator
+    uniqueIDGenerator: require("./uniqueIDGenerator"),
+    encryptImage: require("./imageEncryption"),
+    decryptImage: require("./imageDecryption"),
 }
