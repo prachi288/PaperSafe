@@ -1,38 +1,38 @@
 const fs = require('fs');
 
-const { AadhaarCardService } = require('../services/index');
+const { PANCardService } = require('../services/index');
 
-const aadhaarCardService = new AadhaarCardService();
+const panCardService = new PANCardService();
 
-const uploadAadhaar = async(req, res)=>{
+const uploadPAN = async(req, res)=>{
     try {
         const data = req.body;
         const filePath = req.file.path;
 
-        const response = await aadhaarCardService.uploadAadhaar(data, filePath);
+        const response = await panCardService.uploadPANCard(data, filePath);
         return res.status(201).json({
             data: response,
             error:{},
             success: true,
-            message: "Aadhaar Uploaded Successfully"
+            message: "PAN Uploaded Successfully"
         });
 
     } catch (error) {
-        console.log("Error in Controller Layer");
+        console.log("Error in PAN Controller Layer");
         return res.status(500).json({
             data: {},
             error: error,
             success: false,
-            message: "Failed to Upload Aadhaar"
+            message: "Failed to Upload PAN"
         });
     }
 }
 
-const downloadAadhaar = async(req, res)=>{
+const downloadPAN = async(req, res)=>{
     try {
         const userID = req.params.id;
 
-        const response = await aadhaarCardService.downloadAadhaar(userID);
+        const response = await panCardService.downloadPANCard(userID);
         
         return res.status(200).sendFile(response.decryptedFilePath, (err) => {
             if(err){
@@ -43,17 +43,17 @@ const downloadAadhaar = async(req, res)=>{
         });
 
     } catch (error) {
-        console.log("Error in Controller Layer");
+        console.log("Error in PAN Controller Layer");
         return res.status(500).json({
             data: {},
             error: error,
             success: false,
-            message: "Failed to Download Aadhaar"
+            message: "Failed to Download PAN"
         });
     }
 }
 
 module.exports = {
-    uploadAadhaar,
-    downloadAadhaar
+    uploadPAN,
+    downloadPAN
 }

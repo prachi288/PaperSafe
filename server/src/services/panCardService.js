@@ -3,15 +3,15 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 
-const { AadhaarCardRepository } = require('../repository/index');
+const { PANCardRepository } = require('../repository/index');
 const { encryptImage, decryptImage } = require('../utils/helper/index');
 
-class AadhaarCardService{
+class PANCardService{
     constructor(){
-        this.aadhaarCardRepository = new AadhaarCardRepository();
+        this.panCardRepository = new PANCardRepository();
     }
 
-    async uploadAadhaar(data, filePath){
+    async uploadPANCard(data, filePath){
         try {
 
             const encryptedFilePath = await encryptImage(filePath);
@@ -24,23 +24,23 @@ class AadhaarCardService{
 
             data = {...data, version: result.version, public_id: result.public_id};
             
-            const response = await this.aadhaarCardRepository.create(data);
+            const response = await this.panCardRepository.create(data);
 
             return response;
             
         } catch (error) {
-            console.log("Error in Aadhaar Service Layer");
+            console.log("Error in PAN Service Layer");
             throw error;
         }
     }
 
-    async downloadAadhaar(userID){
+    async downloadPANCard(userID){
         try {
 
-            const aadhaar = await this.aadhaarCardRepository.getByUserID(userID);
+            const pan = await this.panCardRepository.getByUserID(userID);
 
-            const version = aadhaar.version;
-            const public_id = aadhaar.public_id;
+            const version = pan.version;
+            const public_id = pan.public_id;
             const url = `https://res.cloudinary.com/ddhnegekc/raw/upload/v${version}/` + public_id;
 
             const encryptedFilePath = path.join(__dirname, '../downloads', `${public_id}.enc`);
@@ -68,13 +68,13 @@ class AadhaarCardService{
             }
 
             return filePaths;
-
+            
           } catch (error) {
-            console.log('Error in Aadhaar Service Layer');
+            console.log('Error in PAN Service Layer');
             throw error;
           }
     }
     
 }
 
-module.exports = AadhaarCardService;
+module.exports = PANCardService;
